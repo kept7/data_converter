@@ -6,7 +6,7 @@ from docx import Document
 from pandas import DataFrame, ExcelWriter
 
 
-def main_program():
+def main_program() -> None:
     DOCX_FILE_PATH = get_env_path("DOCX_FILE_PATH")
 
     doc = Document(DOCX_FILE_PATH)

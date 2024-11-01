@@ -1,2 +1,6 @@
 .env
-example.doc
+*.docx
+!init_data_xmpl.docx
+*.xlsx
+!res_xmpl.xlsx
+*.res
