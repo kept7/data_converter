@@ -96,8 +96,6 @@ def main_program() -> None:
             I_yd_list.append("-")
             B_list.append("-")
 
-    B_list.append("-")
-
     RESULT_FILE_PATH = get_env_path("RESULT_FILE_PATH")
     results = [
         [
