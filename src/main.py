@@ -11,7 +11,7 @@ def main_program() -> None:
     doc = Document(DOCX_FILE_PATH)
     all_paras = doc.paragraphs
 
-    result = []
+    results = []
 
     pressure_list = []
     temperature_list = []
@@ -40,16 +40,17 @@ def main_program() -> None:
     Z_list = []
     Pl_list = []
     Bm_list = []
-    n_list = ["-"]
-    W_list = ["-"]
+    n_list = []
+    W_list = []
 
-    W_A_ratio_list = ["-"]
-    F_ratio_list = ["-"]
-    F_d_list = ["-"]
-    I_yd_list = ["-"]
-    B_list = ["-"]
+    W_A_ratio_list = []
+    F_ratio_list = []
+    F_d_list = []
+    I_yd_list = []
+    B_list = []
 
     for para in all_paras:
+        flag = 0
         temp_para_list = para_sep(para.text)
         if "T=" in para.text:
             get_first_para(
@@ -72,7 +73,13 @@ def main_program() -> None:
             )
         elif "Bm=" in para.text:
             get_fifth_para(temp_para_list, Z_list, Pl_list, Bm_list, n_list, W_list)
+            if len(para.text) == 47:
+                n_list.append("-")
+                W_list.append("-")
+                flag = 1
         elif "W/A=" in para.text:
+            if len(para.text) == 62:
+                B_list.append("-")
             get_sixth_list(
                 temp_para_list,
                 W_A_ratio_list,
@@ -82,10 +89,17 @@ def main_program() -> None:
                 B_list,
             )
 
+        if flag:
+            W_A_ratio_list.append("-")
+            F_ratio_list.append("-")
+            F_d_list.append("-")
+            I_yd_list.append("-")
+            B_list.append("-")
+
     B_list.append("-")
 
     RESULT_FILE_PATH = get_env_path("RESULT_FILE_PATH")
-    result = [
+    results = [
         [
             pressure_list[i],
             temperature_list[i],
@@ -153,7 +167,7 @@ def main_program() -> None:
         "B",
     ]
 
-    write_xlsx_file(RESULT_FILE_PATH, columns_name, result)
+    write_xlsx_file(RESULT_FILE_PATH, columns_name, results)
 
 
 def get_env_path(env_name: str) -> str:
